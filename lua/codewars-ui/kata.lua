@@ -438,6 +438,7 @@ function Kata:handle_mount()
         self:_settle_cursor()
     end)
 
+    require("codewars.cache.recent").record(self)
     utils.exec_hooks("kata_enter", self)
 end
 
@@ -601,6 +602,7 @@ Kata.change_lang = vim.schedule_wrap(function(self, new_lang)
                 self._notify_pending = 0
 
                 self.file = require("codewars.storage").solution_file(self.slug, new_lang)
+                require("codewars.cache.recent").record(self)
 
                 if not self.file:exists() then
                     self.file:parent():mkdir({ parents = true })
