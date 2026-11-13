@@ -4,6 +4,13 @@ All notable changes to codewars.nvim are documented here.
 
 ## [Unreleased]
 
+### Changed
+- Highlights follow your colorscheme. Every `codewars_*` group now links to a
+  standard group (`Title`, `Comment`, `Diagnostic*`, `Special`, ...) instead
+  of a hardcoded hex color, and is re-derived on `:colorscheme`, which used to
+  wipe them. Language icons share one `codewars_lang` group in place of brand
+  colors. `theme = {}` overrides still work, and now also accept `link`.
+
 ### Added
 - telescope.nvim is now optional. Without it every picker goes through
   `vim.ui.select`, so the kata list, kumite browser and language menus open in
