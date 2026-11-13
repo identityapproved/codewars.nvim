@@ -5,6 +5,9 @@ All notable changes to codewars.nvim are documented here.
 ## [Unreleased]
 
 ### Changed
+- `:CW completed` lists your most recently completed kata first. A new
+  "Recently completed" sort mode (`order=recent`) does this; the Sort menu
+  still switches to the others.
 - Highlights follow your colorscheme. Every `codewars_*` group now links to a
   standard group (`Title`, `Comment`, `Diagnostic*`, `Special`, ...) instead
   of a hardcoded hex color, and is re-derived on `:colorscheme`, which used to
@@ -12,6 +15,10 @@ All notable changes to codewars.nvim are documented here.
   colors. `theme = {}` overrides still work, and now also accept `link`.
 
 ### Added
+- `:CW recent` (also Menu > Katas > Recent): the kata you opened lately,
+  newest first, each marked completed or in progress, to pick up where you
+  left off. Codewars has no "in progress" API, so opens are recorded locally
+  (last 50, per kata and language) and matched against your completed kata.
 - `storage.path`: a function that decides where each solution file goes,
   given the kata's language, slug and extension, relative to `storage.home`
   or absolute. Use it to file solutions into per-language folders of a
