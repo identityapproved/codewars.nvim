@@ -59,6 +59,28 @@ storage = {
 |---|---|---|
 | `storage.home` | `~/.local/share/nvim/codewars` | Directory for kata solution files. |
 | `storage.cache` | `~/.cache/nvim/codewars` | Directory for cookies, session cache, problem list cache, persisted language. |
+| `storage.path` | `nil` | Function deciding each solution's file. Unset: `<slug>.<ext>` flat in `storage.home`. |
+
+### Choosing the file path
+
+`storage.path` receives `ctx` with `lang` (language slug), `slug` (kata slug)
+and `ext` (file extension) and returns a path: relative to `storage.home`, or
+absolute / `~`. Missing directories are created. For example, one folder per
+language in a solutions repo:
+
+```lua
+storage = {
+    home = "~/code/kata-solutions",
+    path = function(ctx)
+        return ("%s/%s.%s"):format(ctx.lang, ctx.slug, ctx.ext)
+    end,
+},
+```
+
+A kata you opened before is found only at the path the function returns now,
+so changing the function later opens fresh files rather than moving old ones.
+A function that errors or returns no path is reported and the flat default is
+used, so it can never stop a kata from opening.
 
 ## Templates
 

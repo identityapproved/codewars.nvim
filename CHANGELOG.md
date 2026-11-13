@@ -4,6 +4,12 @@ All notable changes to codewars.nvim are documented here.
 
 ## [Unreleased]
 
+### Added
+- `storage.path`: a function that decides where each solution file goes,
+  given the kata's language, slug and extension, relative to `storage.home`
+  or absolute. Use it to file solutions into per-language folders of a
+  repository. Unset, files stay `<slug>.<ext>` flat in `storage.home`.
+
 ### Changed
 - The dashboard header no longer waits on a network round trip to show who you
   are. Your username, rank, honor and completed count are remembered between
