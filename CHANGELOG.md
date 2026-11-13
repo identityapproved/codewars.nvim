@@ -12,6 +12,10 @@ All notable changes to codewars.nvim are documented here.
   colors. `theme = {}` overrides still work, and now also accept `link`.
 
 ### Added
+- `storage.path`: a function that decides where each solution file goes,
+  given the kata's language, slug and extension, relative to `storage.home`
+  or absolute. Use it to file solutions into per-language folders of a
+  repository. Unset, files stay `<slug>.<ext>` flat in `storage.home`.
 - telescope.nvim is now optional. Without it every picker goes through
   `vim.ui.select`, so the kata list, kumite browser and language menus open in
   whatever picker you registered globally (fzf-lua, snacks.picker, dressing,

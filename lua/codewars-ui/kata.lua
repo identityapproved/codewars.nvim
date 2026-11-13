@@ -100,15 +100,14 @@ end
 
 ---@return string path, boolean existed
 function Kata:path()
-    local lang = utils.get_lang(self.lang)
-    assert(lang, "Unsupported language: " .. self.lang)
-    local fn = ("%s.%s"):format(self.slug, lang.ft)
-
-    self.file = config.storage.home:joinpath(fn)
+    self.file = require("codewars.storage").solution_file(self.slug, self.lang)
+    local fn = vim.fn.fnamemodify(self.file:absolute(), ":t")
     local existed = self.file:exists()
 
     local templates = require("codewars.templates")
     if not existed then
+        -- storage.path may point into a directory that does not exist yet.
+        self.file:parent():mkdir({ parents = true })
         self.file:write(self:_starter_code(), "w")
     elseif templates.is_enabled() and templates.is_configured(self.lang) then
         -- Seeding is guarded so it can never overwrite work in progress, which
@@ -601,12 +600,10 @@ Kata.change_lang = vim.schedule_wrap(function(self, new_lang)
                 -- must not keep submit locked for this one.
                 self._notify_pending = 0
 
-                local lang_info = utils.get_lang(new_lang)
-                assert(lang_info, "Unsupported language: " .. new_lang)
-                local fn = ("%s.%s"):format(self.slug, lang_info.ft)
-                self.file = config.storage.home:joinpath(fn)
+                self.file = require("codewars.storage").solution_file(self.slug, new_lang)
 
                 if not self.file:exists() then
+                    self.file:parent():mkdir({ parents = true })
                     self.file:write(self:_starter_code(), "w")
                 end
 
